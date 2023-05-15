@@ -1,0 +1,218 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_DATABASE_URI")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique @db.VarChar(64)
+  role      RoleType @default(USER)
+  createdAt DateTime @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @ignore @db.Timestamptz(6)
+
+  @@map("users")
+}
+
+model Patient {
+  id                   String           @id @default(uuid()) @db.Uuid
+  externalPatientId    String           @unique @map("extrenal_patient_id") @db.VarChar(11)
+  firstName            String           @map("first_name") @db.VarChar(64)
+  lastName             String           @map("last_name") @db.VarChar(64)
+  sex                  SexType          @default(FEMALE)
+  dateOfBirth          DateTime         @map("date_of_birth") @db.Date
+  stateCode            String           @map("state_code") @db.Char(2)
+  email                String           @unique @db.VarChar(64)
+  phone                String           @db.VarChar(14)
+  addressLine1         String           @map("address_line_1") @db.VarChar(46)
+  addressLine2         String?          @map("address_line_2") @db.VarChar(46)
+  city                 String           @db.VarChar(50)
+  state                String           @db.Char(2)
+  postalCode           String           @map("postal_code") @db.VarChar(10)
+  paymentType          PaymentType      @map("payment_type")
+  dateOfConsent        DateTime         @map("date_of_consent") @db.Timestamptz(3)
+  truepillPatientToken String?          @map("truepill_patient_token") @db.VarChar(50)
+  stripeCustomerId     String?          @map("stripe_customer_id") @db.VarChar(50)
+  prescriptions        Prescription[]
+  insurance            InsurancePolicy?
+  consultation         Consulation?
+  createdAt            DateTime         @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt            DateTime         @updatedAt @ignore @db.Timestamptz(6)
+
+  @@unique([email, dateOfBirth])
+  @@index([email, dateOfBirth])
+  @@index([externalPatientId])
+  @@map("patients")
+}
+
+model InsurancePolicy {
+  id         String   @id @default(uuid()) @db.Uuid
+  memberName String   @map("member_name") @db.VarChar(128)
+  memberId   String   @map("member_id") @db.VarChar(64)
+  planName   String   @map("plan_name") @db.VarChar(64)
+  rxGroup    String   @map("rx_group") @db.VarChar(64)
+  rxBin      String   @map("rx_bin") @db.VarChar(64)
+  pcn        String   @db.VarChar(64)
+  isMedicaid Boolean  @default(false) @map("is_medicaid") @db.Boolean
+  patient    Patient  @relation(fields: [patientId], references: [id])
+  patientId  String   @unique @db.Uuid
+  createdAt  DateTime @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @ignore @db.Timestamptz(6)
+
+  @@map("insurance_policies")
+}
+
+model Prescription {
+  id                      String   @id @default(uuid()) @db.Uuid
+  prescriberCompany       String   @map("prescriber_company") @db.VarChar(64)
+  prescriberAddressLine1  String   @map("prescriber_address_line_1") @db.VarChar(64)
+  prescriberAddressLine2  String?  @map("prescriber_address_line_2") @db.VarChar(64)
+  prescriberCity          String   @map("prescriber_city") @db.VarChar(50)
+  prescriberState         String   @map("prescriber_state") @db.Char(2)
+  prescriberPostalCode    String   @map("prescriber_postal_code") @db.VarChar(10)
+  prescriberPhone         String   @map("prescriber_phone") @db.VarChar(14)
+  prescriberLicenseNumber String   @map("prescriber_license_number") @db.VarChar(128)
+  prescriberSignature     String?  @map("prescriber_signature") @db.VarChar(255)
+  deaNumber               String?  @map("dea_number") @db.VarChar(9)
+  npi                     String   @db.VarChar(10)
+  rxSignature             String   @map("rx_signature") @db.VarChar(68)
+  dateWritten             DateTime @map("date_written") @db.Timestamp(6)
+  ndc                     String   @db.VarChar(12)
+  medication              String   @db.VarChar(128)
+  quantity                Int      @db.SmallInt
+  unit                    String   @db.VarChar(64)
+  sig                     String   @db.VarChar(128)
+  indication              String   @db.VarChar(64)
+  refills                 Int      @db.SmallInt
+  daw                     Boolean  @db.Boolean
+  truepillRxToken         String?  @map("truepill_rx_token")
+  patient                 Patient  @relation(fields: [patientId], references: [id])
+  patientId               String   @unique @db.Uuid
+  createdAt               DateTime @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt               DateTime @updatedAt @ignore @db.Timestamptz(6)
+
+  @@map("prescriptions")
+}
+
+model Consulation {
+  id                                          String   @id @default(uuid())
+  abdominalOrPelvicSurgeries                  Boolean? @map("abdominal_or_pelvic_surgeries") @db.Boolean
+  alcoholUsage                                String?  @map("alcohol_usage") @db.VarChar(26)
+  allergies                                   Boolean? @db.Boolean
+  allergiesNote                               String?  @map("allergies_note") @db.Text
+  averageMenstrualCycle                       String?  @map("average_menstrual_cycle") @db.VarChar(43)
+  bloating                                    Boolean? @db.Boolean
+  bloodClots                                  Boolean? @map("blood_clot") @db.Boolean
+  bloodClotsNote                              String?  @map("blood_clot_note") @db.Text
+  bloodPressure                               String?  @map("blood_pressure") @db.VarChar(41)
+  breastPainBeforePeriod                      Boolean? @map("breast_pain_before_period") @db.Boolean
+  cervicalDysplasiaOrAbnormalPaps             Boolean? @map("cervical_dysplasia_or_abnormal_paps") @db.Boolean
+  coldSoresFrequency                          String?  @map("cold_sores_frequency") @db.VarChar(21)
+  consentToTelehealth                         String?  @map("consent_to_telehealth") @db.VarChar(18)
+  currentBirthControl                         String?  @map("current_birth_control")
+  currentBirthControlNote                     String?  @map("current_birth_control_note") @db.Text
+  currentColdSoresOutbreak                    Boolean? @map("current_cold_sores_outbreak") @db.Boolean
+  currentGenitalHerpesOutbreak                Boolean? @map("current_genitial_herpes_outbreak") @db.Boolean
+  decreasedLibido                             String?  @map("decreased_libido") @db.VarChar(16)
+  diabetes                                    Boolean? @db.Boolean
+  diabetesNote                                String?  @map("diabetes_note") @db.Text
+  difficultySleeping                          String?  @map("difficulty_sleeping") @db.VarChar(19)
+  drospirenoneWaiver                          String?  @map("drospirenone_waiver") @db.VarChar(146)
+  endometriosis                               String?  @db.VarChar(13)
+  excessHairGrowth                            String?  @map("excess_hair_growth") @db.VarChar(63)
+  exerciseFrequency                           String?  @map("exercise_frequency") @db.VarChar(19)
+  fibroids                                    String?  @db.VarChar(8)
+  genitalHerpesFrequency                      String?  @map("genital_herpes_frequency") @db.VarChar(21)
+  givenBirth                                  Boolean? @map("given_birth") @db.Boolean
+  hadPeriodInPastYear                         Boolean? @map("had_period_in_past_year") @db.Boolean
+  hairLoss                                    String?  @map("hair_loss") @db.VarChar(26)
+  heartConditions                             Boolean? @map("heart_conditions") @db.Boolean
+  heartConditionsNote                         String?  @map("heart_conditions_note") @db.Text
+  height                                      Decimal  @db.Decimal()
+  herpesConsultConditions                     String?  @map("herpes_consult_conditions") @db.VarChar(54)
+  herpesConsultMedications                    String?  @map("herpes_consult_medications") @db.VarChar(137)
+  highBloodPressure                           Boolean? @map("high_blood_pressure") @db.Boolean
+  highBloodPressureNote                       String?  @map("high_blood_pressure_note") @db.Text
+  highProlactinLevel                          String?  @map("high_prolactin_level") @db.VarChar(22)
+  hivOrAids                                   String?  @map("hiv_or_aids") @db.VarChar(8)
+  hotFlashesOrNightSweats                     String?  @map("hot_flashes_or_night_sweats") @db.VarChar(27)
+  irritabilityAnxietyDepressionOrWorseningPMS String?  @map("irritability_anxiety_depression_or_worsening_pms") @db.VarChar(63)
+  isBreastfeeding                             Boolean? @map("is_breastfeeding") @db.Boolean
+  isGenericOk                                 Boolean? @map("is_generic_ok") @db.Boolean
+  liverConditions                             Boolean? @map("liver_conditions") @db.Boolean
+  liverConditionsNote                         String?  @map("liver_conditions_note") @db.Text
+  loseBalanceOrTripEasily                     Boolean? @map("lose_balance_or_trip_easily") @db.Boolean
+  medications                                 String?  @db.VarChar(43)
+  medicationsNote                             String?  @map("medications_note") @db.Text
+  menstrualCycleDetails                       String?  @map("menstrual_cycle_details") @db.VarChar(63)
+  migraines                                   Boolean? @db.Boolean
+  monthlyMenstrualCycles                      Boolean? @map("monthly_menstrual_cycles") @db.Boolean
+  otherConditions                             Boolean? @map("other_conditions") @db.Boolean
+  otherConditionsNote                         String?  @map("other_conditions_note") @db.Text
+  ovarianCysts                                String?  @map("ovarian_cysts") @db.VarChar(14)
+  painBowelMovements                          String?  @map("pain_bowel_movements") @db.VarChar(25)
+  painDeepPenetrativeSex                      String?  @map("pain_deep_penetrative_sex") @db.VarChar(30)
+  painPelvic                                  String?  @map("pain_pelvic") @db.VarChar(62)
+  patchesOfThickenedDarkenedSkin              String?  @map("patches_of_thickened_darkened_skin") @db.VarChar(44)
+  periodPreference                            String?  @map("period_preference") @db.VarChar(15)
+  polycysticOvarianSyndrome                   String?  @map("polycystic_ovarian_syndrome") @db.VarChar(33)
+  pregnant                                    Boolean? @db.Boolean
+  previousBirthControlPart1                   Boolean? @map("previous_birth_control_part1") @db.Boolean
+  previousBirthControlPart2                   Boolean? @map("previous_birth_control_part2") @db.Boolean
+  previousBirthControlPart2Note               String?  @map("previous_brith_control_part2_note") @db.Text
+  previouslyDiagnosedColdSores                Boolean? @map("previously_diagnosed_cold_sores") @db.Boolean
+  previouslyDiagnosedGenitalHerpes            Boolean? @map("previously_diagnosed_genital_herpes") @db.Boolean
+  primaryReason                               String?  @map("primary_reason") @db.VarChar(29)
+  progestinOnlyPillQuestions                  String?  @map("progestin_only_pill_questions") @db.Text
+  questionsForDoctor                          Boolean? @map("questions_for_doctor") @db.Boolean
+  questionsForDoctorNote                      String?  @map("questions_for_doctor_note") @db.Text
+  recentVaricellaOrZosterVaccination          Boolean? @map("recent_varicella_or_zoster_vaccination") @db.Boolean
+  regularMenstrualCycles                      String?  @map("regular_menstrual_cycles") @db.VarChar(38)
+  rheumatologicOrAutoimmuneDisorder           String?  @map("rheumatologic_or_autoimmune_disorder") @db.VarChar(90)
+  severeAcne                                  String?  @map("severe_acne") @db.VarChar(11)
+  severeMenstrualCramping                     String?  @map("severe_menstrual_cramping") @db.VarChar(87)
+  sexuallyTransmittedInfection                String?  @map("sexually_transmitted_infection") @db.VarChar(69)
+  sideEffectConcerns                          Boolean? @map("side_effect_concerns") @db.Boolean
+  sideEffectConcernsNote                      String?  @map("side_effect_concerns_note") @db.Text
+  stateCode                                   String?  @map("state_code") @db.Char(2)
+  supplements                                 String?  @db.VarChar(19)
+  surgeries                                   Boolean? @db.Boolean
+  surgeriesNote                               String?  @map("surgeries_note") @db.Text
+  thyroidDisorder                             String?  @map("thyroid_disorder") @db.VarChar(18)
+  tobacco                                     Boolean? @db.Boolean
+  tobaccoNote                                 String?  @map("tobacco_note") @db.Text
+  tobaccoUsage                                String?  @map("tobacco_usage") @db.VarChar(19)
+  usingHormonalBirthControl                   Boolean? @map("using_hormonal_birth_control") @db.Boolean
+  uterinePolyps                               String?  @map("uterine_polyps") @db.VarChar(14)
+  vaginalDrynessOrPainWithSex                 String?  @map("vaginal_dryness_or_pain_with_sex") @db.VarChar(32)
+  weight                                      Decimal? @db.Decimal()
+  weightGain                                  String?  @map("weight_gain") @db.VarChar(14)
+  patient                                     Patient  @relation(fields: [patientId], references: [id])
+  patientId                                   String   @unique @db.Uuid
+  createdAt                                   DateTime @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt                                   DateTime @updatedAt @ignore @db.Timestamptz(6)
+
+  @@map("consultations")
+}
+
+enum RoleType {
+  USER
+  PROVIDER
+  ADMIN
+}
+
+enum PaymentType {
+  INSURANCE
+  CASH
+}
+
+enum SexType {
+  MALE
+  FEMALE
+  INTERSEX
+}

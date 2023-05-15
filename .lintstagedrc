@@ -1,0 +1,6 @@
+{
+  "lint-staged": {
+    "*": "pnpm format",
+    "*.ts": ["pnpm lint", "pnpm test:staged"]
+  }
+}

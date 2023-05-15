@@ -1,0 +1,33 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "testMatch": ["**/**/*.test.ts"],
+  "verbose": true,
+  "forceExit": true,
+  "automock": false,
+  "clearMocks": true,
+  "resetMocks": true,
+  "restoreMocks": true,
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "<rootDir>/src/**/*.{ts,tsx,js,jsx}",
+    "!<rootDir>/src/main/**/*.{ts,tsx,js,jsx}",
+    "!<rootDir>/src/index.ts"
+  ],
+  "coverageProvider": "v8",
+  "coverageThreshold": {
+    "global": {
+      "branches": 50,
+      "functions": 60,
+      "lines": 60,
+      "statements": 60
+    }
+  },
+  "coverageReporters": ["lcov", "text", "text-summary", "json-summary"],
+  "moduleNameMapper": {
+    "@api/(.*)": "<rootDir>/src/api/$1",
+    "@lib/(.*)": "<rootDir>/src/lib/$1",
+    "@test/(.*)": "<rootDir>/__tests__/$1"
+  },
+  "moduleDirectories": ["node_modules", "<rootDir>/src"]
+}

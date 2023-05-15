@@ -1,0 +1,69 @@
+version: "3.9"
+services:
+  index:
+    image: getmeili/meilisearch:v1.1
+    container_name: medical-record-index
+    environment:
+      - MEILISEARCH_MASTER_KEY=${MEILISEARCH_MASTER_KEY}
+    volumes:
+      - meilisearch_data:/meilisearch_data
+    ports:
+      - ${MEILISEARCH_PORT:-7700}:7700
+    restart: unless-stopped
+
+  cache:
+    image: redis:7.0.11-alpine
+    container_name: medical-record-cache
+    volumes:
+      - redis_data:/data
+    ports:
+      - ${REDIS_PORT:-6379}:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASS}
+    restart: unless-stopped
+
+  database:
+    image: postgres:15.3-alpine
+    container_name: medical-record-db
+    hostname: postgres
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  dbadmin:
+    image: dpage/pgadmin4:7.1
+    container_name: medical-record-db-admin
+    depends_on:
+      - database
+    ports:
+      - ${PGADMIN_PORT:-5555}:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+
+  # api:
+  #   stdin_open: true
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile
+  #   container_name: medical-record-api
+  #   depends_on:
+  #     - postgres
+  #   ports:
+  #     - ${API_PORT:-4000}:4000
+  #   restart: always
+
+volumes:
+  meilisearch_data:
+  redis_data:
+  # mongodb_data:
+  postgres_data:
+  pgadmin_data:

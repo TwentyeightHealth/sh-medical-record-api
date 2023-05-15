@@ -1,0 +1,47 @@
+# Hello Contributor o/!
+#
+# We greatly care about the our git history and maintainability.  This is why we
+# have a very strict commit message policy in place.  This policy is governed and
+# we ask for your cooperation in keeping our git messages clean
+#
+# Please use the following guidelines for all commit messages:
+#
+# <type>(<scope>): <subject>
+########50 characters############################
+# <BLANK LINE>
+# <body>
+########72 characters##################################################
+# <BLANK LINE>
+# <footer>
+#
+# The HEADER is a single line 50 characters max that contains a succinct description
+# of that change.  It also contains a type, an optional scope and a subject
+#
+#   + <type>      describes the kind of change that this commit is. Allowed types are:
+#       * build     (changes that affect the build system or external dependencies) 🛠
+#       * ci        (changes to the ci configuration files and scripts) ⚙️
+#       * feat      (feature) ✨
+#       * fix        (bug fix) 🐛
+#       * perf      (improves performance) 🚀
+#       * docs      (documentation) 📚
+#       * style     (formatting, missing semicolons, linting ...) 💎
+#       * refactor  (code change, neither fixes a bug or adds a feature) 📦
+#       * revert    (undo, revert to a previous version of the code) 🗑
+#       * test      (add missing tests) 🚨
+#       * chore     (maintenance) ♻️
+#   + <scope>     can be anything that specifies the context of the commit. i.e. a service name
+#   + <subject>   very short description of the change in the following format:
+#       * imperative, present tense: "change" NOT "changes"/"changed"
+#       * no capitalized first letters
+#       * not dot (.) at the end
+#
+# The BODY should include the motivation for the change "the why" and contrast this with previous
+# behavior and must be phrased in imperative present tense and 72 characters max per line
+#
+# The FOOTER should contain any information about "Breaking Changes" and references to list any
+# "Ticket Numbers" that this commit closes
+#
+# "Breaking Changes" should start with the words BREAKING CHANGE: with a space or two new lines.
+# The rest of the commit message is used for this purpose.
+#
+# Thank you <3

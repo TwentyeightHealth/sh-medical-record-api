@@ -1,0 +1,11 @@
+.devcontainer
+/coverage
+/templates
+.huskyrc
+.lintstagedrc
+.eslintrc
+.eslintignore
+.prettierrc
+.prettierignore
+.versionrc
+pnpm-lock.yaml
