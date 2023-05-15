@@ -6,7 +6,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 // Import routes
-// import medicalRecordsRouter from './routes/medicalRecords.ts';
+import medicalRecordsRouter from './routes/medicalRecords.ts';
 
 // Set default port for express app
 const PORT = process.env.PORT || 7000;
@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Implement routes
-// app.use('/medical-records', medicalRecordsRouter);
+app.use('/medical-records', medicalRecordsRouter);
 
 // Implement 500 error route
 app.use(function (err, req, res, next) {
