@@ -4,9 +4,10 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
+import type { NextFunction as Next, Request, Response } from 'express';
 
 // Import routes
-import medicalRecordsRouter from './routes/medicalRecords.ts';
+import medicalRecordsRouter from './routes/medicalRecords';
 
 // Set default port for express app
 const PORT = process.env.PORT || 7000;
@@ -26,8 +27,7 @@ app.use(bodyParser.json());
 app.use('/medical-records', medicalRecordsRouter);
 
 // Implement 500 error route
-app.use(function (err, req, res, next) {
-  console.error(err.stack);
+app.use(function (req: Request, res: Response, next: Next) {
   res.status(500).send('Something is broken.');
 });
 
