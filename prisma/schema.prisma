@@ -10,18 +10,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
+  id        Int      @id @default(autoincrement())
   email     String   @unique @db.VarChar(64)
   role      RoleType @default(USER)
-  createdAt DateTime @default(now()) @ignore @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @ignore @db.Timestamptz(6)
+  createdAt DateTime @map("created_at") @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt DateTime @map("updated_at") @updatedAt @ignore @db.Timestamptz(6)
 
   @@map("users")
 }
 
+
 model Patient {
-  id                   String           @id @default(uuid()) @db.Uuid
-  externalPatientId    String           @unique @map("extrenal_patient_id") @db.VarChar(11)
+  id                   Int              @unique @id @default(autoincrement())
+  externalPatientId    String           @unique @map("external_patient_id") @db.VarChar(11)
   firstName            String           @map("first_name") @db.VarChar(64)
   lastName             String           @map("last_name") @db.VarChar(64)
   sex                  SexType          @default(FEMALE)
@@ -39,10 +40,10 @@ model Patient {
   truepillPatientToken String?          @map("truepill_patient_token") @db.VarChar(50)
   stripeCustomerId     String?          @map("stripe_customer_id") @db.VarChar(50)
   prescriptions        Prescription[]
-  insurance            InsurancePolicy?
-  consultation         Consulation?
-  createdAt            DateTime         @default(now()) @ignore @db.Timestamptz(6)
-  updatedAt            DateTime         @updatedAt @ignore @db.Timestamptz(6)
+  insurance            InsurancePolicy[]
+  consultation         Consulation[]
+  createdAt            DateTime         @map("created_at") @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt            DateTime         @map("updated_at") @updatedAt @ignore @db.Timestamptz(6)
 
   @@unique([email, dateOfBirth])
   @@index([email, dateOfBirth])
@@ -51,7 +52,7 @@ model Patient {
 }
 
 model InsurancePolicy {
-  id         String   @id @default(uuid()) @db.Uuid
+  id         Int      @id @default(autoincrement())
   memberName String   @map("member_name") @db.VarChar(128)
   memberId   String   @map("member_id") @db.VarChar(64)
   planName   String   @map("plan_name") @db.VarChar(64)
@@ -60,15 +61,15 @@ model InsurancePolicy {
   pcn        String   @db.VarChar(64)
   isMedicaid Boolean  @default(false) @map("is_medicaid") @db.Boolean
   patient    Patient  @relation(fields: [patientId], references: [id])
-  patientId  String   @unique @db.Uuid
-  createdAt  DateTime @default(now()) @ignore @db.Timestamptz(6)
-  updatedAt  DateTime @updatedAt @ignore @db.Timestamptz(6)
+  patientId  Int      @map("patient_id")
+  createdAt  DateTime @map("created_at") @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt  DateTime @map("updated_at") @updatedAt @ignore @db.Timestamptz(6)
 
   @@map("insurance_policies")
 }
 
 model Prescription {
-  id                      String   @id @default(uuid()) @db.Uuid
+  id                      Int      @id @default(autoincrement())
   prescriberCompany       String   @map("prescriber_company") @db.VarChar(64)
   prescriberAddressLine1  String   @map("prescriber_address_line_1") @db.VarChar(64)
   prescriberAddressLine2  String?  @map("prescriber_address_line_2") @db.VarChar(64)
@@ -92,15 +93,17 @@ model Prescription {
   daw                     Boolean  @db.Boolean
   truepillRxToken         String?  @map("truepill_rx_token")
   patient                 Patient  @relation(fields: [patientId], references: [id])
-  patientId               String   @unique @db.Uuid
-  createdAt               DateTime @default(now()) @ignore @db.Timestamptz(6)
-  updatedAt               DateTime @updatedAt @ignore @db.Timestamptz(6)
+  patientId               Int      @map("patient_id")
+  createdAt               DateTime @map("created_at") @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt               DateTime @map("updated_at") @updatedAt @ignore @db.Timestamptz(6)
 
   @@map("prescriptions")
 }
 
+
+
 model Consulation {
-  id                                          String   @id @default(uuid())
+  id                                          Int      @id @default(autoincrement())
   abdominalOrPelvicSurgeries                  Boolean? @map("abdominal_or_pelvic_surgeries") @db.Boolean
   alcoholUsage                                String?  @map("alcohol_usage") @db.VarChar(26)
   allergies                                   Boolean? @db.Boolean
@@ -121,7 +124,7 @@ model Consulation {
   decreasedLibido                             String?  @map("decreased_libido") @db.VarChar(16)
   diabetes                                    Boolean? @db.Boolean
   diabetesNote                                String?  @map("diabetes_note") @db.Text
-  difficultySleeping                          String?  @map("difficulty_sleeping") @db.VarChar(19)
+  difficultySleeping                          Boolean? @map("difficulty_sleeping") @db.Boolean
   drospirenoneWaiver                          String?  @map("drospirenone_waiver") @db.VarChar(146)
   endometriosis                               String?  @db.VarChar(13)
   excessHairGrowth                            String?  @map("excess_hair_growth") @db.VarChar(63)
@@ -172,7 +175,7 @@ model Consulation {
   questionsForDoctor                          Boolean? @map("questions_for_doctor") @db.Boolean
   questionsForDoctorNote                      String?  @map("questions_for_doctor_note") @db.Text
   recentVaricellaOrZosterVaccination          Boolean? @map("recent_varicella_or_zoster_vaccination") @db.Boolean
-  regularMenstrualCycles                      String?  @map("regular_menstrual_cycles") @db.VarChar(38)
+  regularMenstrualCycles                      Boolean? @map("regular_menstrual_cycles") @db.Boolean
   rheumatologicOrAutoimmuneDisorder           String?  @map("rheumatologic_or_autoimmune_disorder") @db.VarChar(90)
   severeAcne                                  String?  @map("severe_acne") @db.VarChar(11)
   severeMenstrualCramping                     String?  @map("severe_menstrual_cramping") @db.VarChar(87)
@@ -183,7 +186,7 @@ model Consulation {
   supplements                                 String?  @db.VarChar(19)
   surgeries                                   Boolean? @db.Boolean
   surgeriesNote                               String?  @map("surgeries_note") @db.Text
-  thyroidDisorder                             String?  @map("thyroid_disorder") @db.VarChar(18)
+  thyroidDisorder                             Boolean? @map("thyroid_disorder") @db.Boolean
   tobacco                                     Boolean? @db.Boolean
   tobaccoNote                                 String?  @map("tobacco_note") @db.Text
   tobaccoUsage                                String?  @map("tobacco_usage") @db.VarChar(19)
@@ -191,11 +194,11 @@ model Consulation {
   uterinePolyps                               String?  @map("uterine_polyps") @db.VarChar(14)
   vaginalDrynessOrPainWithSex                 String?  @map("vaginal_dryness_or_pain_with_sex") @db.VarChar(32)
   weight                                      Decimal? @db.Decimal()
-  weightGain                                  String?  @map("weight_gain") @db.VarChar(14)
+  weightGain                                  Boolean? @map("weight_gain") @db.Boolean
   patient                                     Patient  @relation(fields: [patientId], references: [id])
-  patientId                                   String   @unique @db.Uuid
-  createdAt                                   DateTime @default(now()) @ignore @db.Timestamptz(6)
-  updatedAt                                   DateTime @updatedAt @ignore @db.Timestamptz(6)
+  patientId                                   Int      @map("patient_id")
+  createdAt                                   DateTime @map("created_at") @default(now()) @ignore @db.Timestamptz(6)
+  updatedAt                                   DateTime @map("updated_at") @updatedAt @ignore @db.Timestamptz(6)
 
   @@map("consultations")
 }
