@@ -2,6 +2,8 @@ import { PrismaClient, Prescription } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const prescription = prisma.prescription.findMany();
+async function getByPatientId(patientId: number): Promise<Prescription[]> {
+  return prisma.prescription.findMany({ where: { patientId } });
+}
 
-console.log('prescription', prescription);
+export default { getByPatientId };

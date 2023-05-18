@@ -1,4 +1,7 @@
+import consultationCtrl from './consultations';
+import insuranceCtrl from './insurances';
 import patientCtrl from './patients';
+import prescriptionCtrl from './prescriptions';
 import regex from '../lib/regex';
 import type { Request, Response } from 'express';
 
@@ -76,12 +79,17 @@ async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: stri
   });
 
   if (patient === null) {
-    res.status(404).json({ statusCode: 404, error: 'Patient not found.' });
+    return res.status(404).json({ statusCode: 404, error: 'Patient not found.' });
   }
 
-  // TODO: what types of things do we want to return?
+  // TODO: what types of things do we want to return? should we take out internal id?
+  const prescriptions = await prescriptionCtrl.getByPatientId(patient.id);
+  const consultations = await consultationCtrl.getByPatientId(patient.id); 
+  const insurancePolicies = await insuranceCtrl.getByPatientId(patient.id);
 
-  return res.json({ statusCode: 200, patient });
+  const results = { ...patient, prescriptions, consultations, insurancePolicies }
+
+  return res.json({ statusCode: 200, patient: results });
 }
 
 export default {

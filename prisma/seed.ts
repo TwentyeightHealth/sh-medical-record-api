@@ -49,6 +49,17 @@ async function main() {
           truepillRxToken: 'truepillRxToken23234'
         }
       },
+      insurance: {
+        create: {
+          memberName: 'Alice Liddel',
+          memberId: '122132342345GHGK', 
+          planName: 'Aetna',
+          rxGroup: 'WSG',
+          rxBin: '009214',
+          pcn: 'IS',
+          isMedicaid: false,
+        }
+      },
       consultation: {
         create: {
           abdominalOrPelvicSurgeries: null,
@@ -136,7 +147,7 @@ async function main() {
           uterinePolyps: null,
           vaginalDrynessOrPainWithSex: null,
           weight: 130,
-          weightGain: false,
+          weightGain: false
         }
       }
     }
@@ -146,7 +157,7 @@ async function main() {
     where: { email: 'bob@prisma.io' },
     update: {},
     create: {
-      email: 'bob@prisma.io',
+      email: 'bob@prisma.io'
     }
   });
 
