@@ -13,7 +13,7 @@ import medicalRecordsRouter from './routes/medicalRecords';
 const PORT = process.env.PORT || 7000;
 
 // Create express app
-const app = express();
+export const app = express();
 
 // Apply middleware
 // Note: Keep this at the top, above routes

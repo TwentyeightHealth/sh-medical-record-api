@@ -52,12 +52,12 @@ async function main() {
       insurance: {
         create: {
           memberName: 'Alice Liddel',
-          memberId: '122132342345GHGK', 
+          memberId: '122132342345GHGK',
           planName: 'Aetna',
           rxGroup: 'WSG',
           rxBin: '009214',
           pcn: 'IS',
-          isMedicaid: false,
+          isMedicaid: false
         }
       },
       consultation: {

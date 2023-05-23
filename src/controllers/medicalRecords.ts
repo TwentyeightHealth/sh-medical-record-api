@@ -75,7 +75,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
 async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: string; dob: string; res: Response }) {
   const patient = await patientCtrl.getByEmailAndDob({
     email,
-    dob
+    dob: new Date(dob)
   });
 
   if (patient === null) {
@@ -84,10 +84,10 @@ async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: stri
 
   // TODO: what types of things do we want to return? should we take out internal id?
   const prescriptions = await prescriptionCtrl.getByPatientId(patient.id);
-  const consultations = await consultationCtrl.getByPatientId(patient.id); 
+  const consultations = await consultationCtrl.getByPatientId(patient.id);
   const insurancePolicies = await insuranceCtrl.getByPatientId(patient.id);
 
-  const results = { ...patient, prescriptions, consultations, insurancePolicies }
+  const results = { ...patient, prescriptions, consultations, insurancePolicies };
 
   return res.json({ statusCode: 200, patient: results });
 }
