@@ -2,18 +2,17 @@ import { PrismaClient, Patient, Prisma } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-
 enum SexType {
   MALE,
   FEMALE,
-  INTERSEX,
+  INTERSEX
 }
 
 async function createPatient(payload: Prisma.PatientCreateInput): Promise<Patient> {
-  const existingPatient = await getByEmailAndDob({ email: payload.email, dob: new Date(payload.dateOfBirth) }); 
+  const existingPatient = await getByEmailAndDob({ email: payload.email, dob: new Date(payload.dateOfBirth) });
 
   if (existingPatient) {
-    return existingPatient; 
+    return existingPatient;
   }
 
   const patient = prisma.patient.create({

@@ -27,4 +27,34 @@ describe('medical records', () => {
       });
     });
   });
+
+  describe('given email is not provided', () => {
+    it('should return a 400', async () => {
+      await supertest(app).post(`/medical-records`).send({ dob: '1997-08-12' }).expect(400);
+    });
+  });
+
+  describe('given dob is not provided', () => {
+    it('should return a 400', async () => {
+      await supertest(app).post(`/medical-records`).send({ email: 'mock_patient@gmail.com' }).expect(400);
+    });
+  });
+
+  describe('given email is not a real email', () => {
+    it('should return a 400', async () => {
+       await supertest(app)
+        .post(`/medical-records`)
+        .send({ email: 'this_is_not_an_email', dob: '1997-08-12' })
+        .expect(400);
+    });
+  });
+
+  describe('dob is not in YYYY-MM-DD format', () => {
+    it('should return a 400', async () => {
+        await supertest(app)
+        .post(`/medical-records`)
+        .send({ email: 'mock_patient@gmail.com', dob: '08-12-1997' })
+        .expect(400);
+    });
+  });
 });
