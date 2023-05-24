@@ -1,3 +1,6 @@
+import clientCtrl from '../src/controllers/clients';
+import { encrypt, decrypt } from '../src/lib/crypto';
+
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
@@ -161,7 +164,17 @@ async function main() {
     }
   });
 
-  console.log({ alice, bob });
+  const { id, secret } = clientCtrl.generateClientIdAndSecret();
+  const encryptedSecret = encrypt(secret);
+
+  const client = await prisma.client.create({
+    data: {
+      id,
+      secret: encryptedSecret
+    }
+  });
+
+  console.log({ alice, bob, client });
 }
 main()
   .then(async () => {

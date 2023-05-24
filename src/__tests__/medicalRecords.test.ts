@@ -42,7 +42,7 @@ describe('medical records', () => {
 
   describe('given email is not a real email', () => {
     it('should return a 400', async () => {
-       await supertest(app)
+      await supertest(app)
         .post(`/medical-records`)
         .send({ email: 'this_is_not_an_email', dob: '1997-08-12' })
         .expect(400);
@@ -51,7 +51,7 @@ describe('medical records', () => {
 
   describe('dob is not in YYYY-MM-DD format', () => {
     it('should return a 400', async () => {
-        await supertest(app)
+      await supertest(app)
         .post(`/medical-records`)
         .send({ email: 'mock_patient@gmail.com', dob: '08-12-1997' })
         .expect(400);
