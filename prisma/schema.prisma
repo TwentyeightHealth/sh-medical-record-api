@@ -20,8 +20,8 @@ model User {
 }
 
 model Client {
-  id        String   @unique @db.VarChar(64)
-  secret    String   @unique @db.VarChar(64)
+  id        String   @unique @db.VarChar(128)
+  secret    String   @unique @db.VarChar(128)
   createdAt DateTime @map("created_at") @default(now()) @ignore @db.Timestamptz(6)
   updatedAt DateTime @map("updated_at") @updatedAt @ignore @db.Timestamptz(6)
 

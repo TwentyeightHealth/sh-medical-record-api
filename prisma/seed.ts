@@ -1,5 +1,5 @@
 import clientCtrl from '../src/controllers/clients';
-import { encrypt, decrypt } from '../src/lib/crypto';
+import { hashText } from '../src/lib/crypto';
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -165,12 +165,12 @@ async function main() {
   });
 
   const { id, secret } = clientCtrl.generateClientIdAndSecret();
-  const encryptedSecret = encrypt(secret);
+  const hashedSecret = hashText(secret);
 
   const client = await prisma.client.create({
     data: {
       id,
-      secret: encryptedSecret
+      secret: hashedSecret
     }
   });
 

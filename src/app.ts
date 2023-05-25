@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import type { NextFunction as Next, Request, Response } from 'express';
 
 // Import routes
+import accessTokenRouter from './routes/accessToken';
 import medicalRecordsRouter from './routes/medicalRecords';
 
 // Set default port for express app
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Implement routes
+app.use('/access-token', accessTokenRouter);
 app.use('/medical-records', medicalRecordsRouter);
 
 // Implement 500 error route

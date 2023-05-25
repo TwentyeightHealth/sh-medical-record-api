@@ -15,7 +15,7 @@ async function createPatient(payload: Prisma.PatientCreateInput): Promise<Patien
     return existingPatient;
   }
 
-  const patient = prisma.patient.create({
+  const patient = await prisma.patient.create({
     data: payload
   });
 
