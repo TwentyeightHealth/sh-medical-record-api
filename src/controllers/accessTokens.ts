@@ -1,3 +1,4 @@
+import { cache } from '../app';
 import clientCtrl from './clients';
 import otpGenerator from 'otp-generator';
 import type { Request, Response } from 'express';
@@ -40,10 +41,12 @@ async function handleIncomingRequests(req: Request, res: Response) {
   // If authenticated, grant an accessToken
   const accessToken = otpGenerator.generate(10, { specialChars: false });
   const now = new Date();
-  // Token is good for 24 hours
-  const expiration = now.getTime() + 24 * 60 * 60 * 1000;
 
-  // TODO: where do we save the accessToken?
+  // Tell the user the expiration time in milliseconds
+  const expiration = now.getTime() + 86400 * 1000;
+
+  // Save the accessToken in the node-cache for 24 hours
+  cache.set(accessToken, true, 86400);
 
   return res.status(200).json({ statusCode: 200, accessToken, expiration });
 }

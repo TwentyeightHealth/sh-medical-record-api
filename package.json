@@ -111,6 +111,7 @@
     "module-alias": "^2.2.2",
     "mongoose": "^7.1.1",
     "nanoid": "3.1.30",
+    "node-cache": "^5.1.2",
     "nodemailer": "^6.9.2",
     "otp-generator": "^4.0.1",
     "pino": "^8.14.1",

@@ -1,3 +1,4 @@
+import { cache } from '../app';
 import consultationCtrl from './consultations';
 import insuranceCtrl from './insurances';
 import patientCtrl from './patients';
@@ -49,9 +50,33 @@ async function validateMedicalRecordInput({
   return validationErrors;
 }
 
-// TODO: add response type
+/*
+ * This function: 
+ *   - authenticates the request by searching for the access token in node-cache
+ *   - validates email and dob 
+ *   - returns the medical record for the patient
+ */
 async function handleIncomingRequests(req: Request, res: Response) {
-  // TODO: authenticate request
+  const auth = req.headers.authorization; 
+  const accessToken = auth?.split(' '); 
+  const tokenValue = accessToken?.length === 2 ? accessToken[1] : undefined;
+
+  if (tokenValue === undefined) {
+    return res.status(401).json({
+      statusCode: 401,
+      error: 'Access Token required',
+    });
+  }
+
+  const tokenExists = cache.get(tokenValue);
+
+  if (!tokenExists) {
+    return res.status(401).json({
+      statusCode: 401,
+      error: 'Access Token is not valid, please regenerate a new one',
+    });
+  } 
+  
   const { email, dob } = req.body;
 
   // Make sure we have all the input needed
