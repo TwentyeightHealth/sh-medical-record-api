@@ -1,6 +1,6 @@
 import otpGenerator from 'otp-generator';
 import { hashText } from '../lib/crypto';
-import { PrismaClient } from '@prisma/client';
+import { Client, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -9,6 +9,17 @@ function generateClientIdAndSecret(): { id: string; secret: string } {
   const secret = otpGenerator.generate(24, { specialChars: false });
 
   return { id, secret };
+}
+
+async function create({ id, secret }: { id: string; secret: string }): Promise<Client> {
+  const hashedSecret = hashText(secret);
+
+  return prisma.client.create({
+    data: {
+      id,
+      secret: hashedSecret
+    }
+  });
 }
 
 async function isAuthenticated({
@@ -40,6 +51,7 @@ async function isAuthenticated({
 }
 
 export default {
+  create,
   generateClientIdAndSecret,
   isAuthenticated
 };

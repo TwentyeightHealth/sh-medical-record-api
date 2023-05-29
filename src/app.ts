@@ -14,10 +14,9 @@ import medicalRecordsRouter from './routes/medicalRecords';
 // Set default port for express app
 const PORT = process.env.PORT || 7000;
 
-
 // Create a server side cache
 // time to expire is infinity, and check period is 24 hours
-export const cache = new NodeCache( { stdTTL: 0, checkperiod: 0 } );
+export const cache = new NodeCache({ stdTTL: 0, checkperiod: 0 });
 
 // Create express app
 export const app = express();

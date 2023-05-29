@@ -38,6 +38,12 @@ async function handleIncomingRequests(req: Request, res: Response) {
     return res.status(401).json({ statusCode: 401, error: 'Unauthorized' });
   }
 
+  const { accessToken, expiration } = await generateAccessToken();
+
+  return res.status(200).json({ statusCode: 200, accessToken, expiration });
+}
+
+async function generateAccessToken(): Promise<{ accessToken: string; expiration: number }> {
   // If authenticated, grant an accessToken
   const accessToken = otpGenerator.generate(10, { specialChars: false });
   const now = new Date();
@@ -46,11 +52,12 @@ async function handleIncomingRequests(req: Request, res: Response) {
   const expiration = now.getTime() + 86400 * 1000;
 
   // Save the accessToken in the node-cache for 24 hours
-  cache.set(accessToken, true, 86400);
+  await cache.set(accessToken, true, 86400);
 
-  return res.status(200).json({ statusCode: 200, accessToken, expiration });
+  return { accessToken, expiration };
 }
 
 export default {
+  generateAccessToken,
   handleIncomingRequests
 };
