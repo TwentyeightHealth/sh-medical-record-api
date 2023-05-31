@@ -63,6 +63,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
 
   if (tokenValue === undefined) {
     return res.status(401).json({
+      status: 'error',
       statusCode: 401,
       error: 'Access Token required'
     });
@@ -72,8 +73,9 @@ async function handleIncomingRequests(req: Request, res: Response) {
 
   if (!tokenExists) {
     return res.status(401).json({
+      status: 'error',
       statusCode: 401,
-      error: 'Access Token is not valid, please regenerate a new one'
+      error: 'Access Token is not valid, please generate a new one'
     });
   }
 
@@ -87,6 +89,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
 
   if (validationErrors.length) {
     return res.status(400).json({
+      status: 'error',
       statusCode: 400,
       error: 'Bad Request',
       validation_errors: validationErrors
@@ -104,7 +107,7 @@ async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: stri
   });
 
   if (patient === null) {
-    return res.status(404).json({ statusCode: 404, error: 'Patient not found.' });
+    return res.status(404).json({ status: 'error', statusCode: 404, error: 'Patient not found.' });
   }
 
   // TODO: what types of things do we want to return? should we take out internal id?
@@ -114,7 +117,7 @@ async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: stri
 
   const results = { ...patient, prescriptions, consultations, insurancePolicies };
 
-  return res.json({ statusCode: 200, patient: results });
+  return res.json({ status: 'success', statusCode: 200, patient: results });
 }
 
 export default {

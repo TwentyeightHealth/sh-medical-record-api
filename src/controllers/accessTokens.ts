@@ -25,6 +25,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
     }
 
     return res.status(400).json({
+      status: 'error',
       statusCode: 400,
       error: 'Bad Request',
       errors
@@ -35,12 +36,12 @@ async function handleIncomingRequests(req: Request, res: Response) {
   const isAuthenticated = await clientCtrl.isAuthenticated({ clientId, clientSecret });
 
   if (!isAuthenticated) {
-    return res.status(401).json({ statusCode: 401, error: 'Unauthorized' });
+    return res.status(401).json({ status: 'error', statusCode: 401, error: 'Unauthorized' });
   }
 
   const { accessToken, expiration } = await generateAccessToken();
 
-  return res.status(200).json({ statusCode: 200, accessToken, expiration });
+  return res.status(200).json({ status: 'success', statusCode: 200,  accessToken, expiration });
 }
 
 async function generateAccessToken(): Promise<{ accessToken: string; expiration: number }> {
