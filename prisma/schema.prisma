@@ -129,19 +129,19 @@ model Consultation {
   currentBirthControlNote                     String?  @map("current_birth_control_note") @db.Text
   currentColdSoresOutbreak                    Boolean? @map("current_cold_sores_outbreak") @db.Boolean
   currentGenitalHerpesOutbreak                Boolean? @map("current_genitial_herpes_outbreak") @db.Boolean
-  decreasedLibido                             String?  @map("decreased_libido") @db.VarChar(16)
+  decreasedLibido                             Boolean?  @map("decreased_libido") @db.Boolean
   diabetes                                    Boolean? @db.Boolean
   diabetesNote                                String?  @map("diabetes_note") @db.Text
   difficultySleeping                          Boolean? @map("difficulty_sleeping") @db.Boolean
-  drospirenoneWaiver                          String?  @map("drospirenone_waiver") @db.VarChar(146)
-  endometriosis                               String?  @db.VarChar(13)
-  excessHairGrowth                            String?  @map("excess_hair_growth") @db.VarChar(63)
+  drospirenoneWaiver                          Boolean?  @map("drospirenone_waiver") @db.Boolean
+  endometriosis                               Boolean?  @db.Boolean
+  excessHairGrowth                            Boolean? @map("excess_hair_growth") @db.Boolean
   exerciseFrequency                           String?  @map("exercise_frequency") @db.VarChar(19)
-  fibroids                                    String?  @db.VarChar(8)
+  fibroids                                    Boolean? @db.Boolean
   genitalHerpesFrequency                      String?  @map("genital_herpes_frequency") @db.VarChar(21)
   givenBirth                                  Boolean? @map("given_birth") @db.Boolean
   hadPeriodInPastYear                         Boolean? @map("had_period_in_past_year") @db.Boolean
-  hairLoss                                    String?  @map("hair_loss") @db.VarChar(26)
+  hairLoss                                    Boolean? @map("hair_loss") @db.Boolean
   heartConditions                             Boolean? @map("heart_conditions") @db.Boolean
   heartConditionsNote                         String?  @map("heart_conditions_note") @db.Text
   height                                      Decimal  @db.Decimal()
@@ -149,10 +149,10 @@ model Consultation {
   herpesConsultMedications                    String?  @map("herpes_consult_medications") @db.VarChar(137)
   highBloodPressure                           Boolean? @map("high_blood_pressure") @db.Boolean
   highBloodPressureNote                       String?  @map("high_blood_pressure_note") @db.Text
-  highProlactinLevel                          String?  @map("high_prolactin_level") @db.VarChar(22)
-  hivOrAids                                   String?  @map("hiv_or_aids") @db.VarChar(8)
-  hotFlashesOrNightSweats                     String?  @map("hot_flashes_or_night_sweats") @db.VarChar(27)
-  irritabilityAnxietyDepressionOrWorseningPMS String?  @map("irritability_anxiety_depression_or_worsening_pms") @db.VarChar(63)
+  highProlactinLevel                          Boolean? @map("high_prolactin_level") @db.Boolean
+  hivOrAids                                   Boolean? @map("hiv_or_aids") @db.Boolean
+  hotFlashesOrNightSweats                     Boolean? @map("hot_flashes_or_night_sweats") @db.Boolean
+  irritabilityAnxietyDepressionOrWorseningPMS Boolean? @map("irritability_anxiety_depression_or_worsening_pms") @db.Boolean
   isBreastfeeding                             Boolean? @map("is_breastfeeding") @db.Boolean
   isGenericOk                                 Boolean? @map("is_generic_ok") @db.Boolean
   liverConditions                             Boolean? @map("liver_conditions") @db.Boolean
@@ -165,13 +165,13 @@ model Consultation {
   monthlyMenstrualCycles                      Boolean? @map("monthly_menstrual_cycles") @db.Boolean
   otherConditions                             Boolean? @map("other_conditions") @db.Boolean
   otherConditionsNote                         String?  @map("other_conditions_note") @db.Text
-  ovarianCysts                                String?  @map("ovarian_cysts") @db.VarChar(14)
-  painBowelMovements                          String?  @map("pain_bowel_movements") @db.VarChar(25)
-  painDeepPenetrativeSex                      String?  @map("pain_deep_penetrative_sex") @db.VarChar(30)
-  painPelvic                                  String?  @map("pain_pelvic") @db.VarChar(62)
-  patchesOfThickenedDarkenedSkin              String?  @map("patches_of_thickened_darkened_skin") @db.VarChar(44)
+  ovarianCysts                                Boolean?  @map("ovarian_cysts") @db.Boolean
+  painBowelMovements                          Boolean?  @map("pain_bowel_movements") @db.Boolean
+  painDeepPenetrativeSex                      Boolean?  @map("pain_deep_penetrative_sex") @db.Boolean
+  painPelvic                                  Boolean?  @map("pain_pelvic") @db.Boolean
+  patchesOfThickenedDarkenedSkin              Boolean?  @map("patches_of_thickened_darkened_skin") @db.Boolean
   periodPreference                            String?  @map("period_preference") @db.VarChar(15)
-  polycysticOvarianSyndrome                   String?  @map("polycystic_ovarian_syndrome") @db.VarChar(33)
+  polycysticOvarianSyndrome                   Boolean?  @map("polycystic_ovarian_syndrome") @db.Boolean
   pregnant                                    Boolean? @db.Boolean
   previousBirthControlPart1                   Boolean? @map("previous_birth_control_part1") @db.Boolean
   previousBirthControlPart2                   Boolean? @map("previous_birth_control_part2") @db.Boolean
@@ -179,15 +179,15 @@ model Consultation {
   previouslyDiagnosedColdSores                Boolean? @map("previously_diagnosed_cold_sores") @db.Boolean
   previouslyDiagnosedGenitalHerpes            Boolean? @map("previously_diagnosed_genital_herpes") @db.Boolean
   primaryReason                               String?  @map("primary_reason") @db.VarChar(29)
-  progestinOnlyPillQuestions                  String?  @map("progestin_only_pill_questions") @db.Text
+  progestinOnlyPillQuestions                  Boolean?  @map("progestin_only_pill_questions") @db.Boolean
   questionsForDoctor                          Boolean? @map("questions_for_doctor") @db.Boolean
   questionsForDoctorNote                      String?  @map("questions_for_doctor_note") @db.Text
   recentVaricellaOrZosterVaccination          Boolean? @map("recent_varicella_or_zoster_vaccination") @db.Boolean
   regularMenstrualCycles                      Boolean? @map("regular_menstrual_cycles") @db.Boolean
-  rheumatologicOrAutoimmuneDisorder           String?  @map("rheumatologic_or_autoimmune_disorder") @db.VarChar(90)
-  severeAcne                                  String?  @map("severe_acne") @db.VarChar(11)
-  severeMenstrualCramping                     String?  @map("severe_menstrual_cramping") @db.VarChar(87)
-  sexuallyTransmittedInfection                String?  @map("sexually_transmitted_infection") @db.VarChar(69)
+  rheumatologicOrAutoimmuneDisorder           Boolean?  @map("rheumatologic_or_autoimmune_disorder") @db.Boolean
+  severeAcne                                  Boolean?  @map("severe_acne") @db.Boolean
+  severeMenstrualCramping                     Boolean?  @map("severe_menstrual_cramping") @db.Boolean
+  sexuallyTransmittedInfection                Boolean?  @map("sexually_transmitted_infection") @db.Boolean
   sideEffectConcerns                          Boolean? @map("side_effect_concerns") @db.Boolean
   sideEffectConcernsNote                      String?  @map("side_effect_concerns_note") @db.Text
   stateCode                                   String?  @map("state_code") @db.Char(2)
@@ -199,8 +199,8 @@ model Consultation {
   tobaccoNote                                 String?  @map("tobacco_note") @db.Text
   tobaccoUsage                                String?  @map("tobacco_usage") @db.VarChar(19)
   usingHormonalBirthControl                   Boolean? @map("using_hormonal_birth_control") @db.Boolean
-  uterinePolyps                               String?  @map("uterine_polyps") @db.VarChar(14)
-  vaginalDrynessOrPainWithSex                 String?  @map("vaginal_dryness_or_pain_with_sex") @db.VarChar(32)
+  uterinePolyps                               Boolean?  @map("uterine_polyps") @db.Boolean
+  vaginalDrynessOrPainWithSex                 Boolean?  @map("vaginal_dryness_or_pain_with_sex") @db.Boolean
   weight                                      Decimal? @db.Decimal()
   weightGain                                  Boolean? @map("weight_gain") @db.Boolean
   patient                                     Patient  @relation(fields: [patientId], references: [id])
