@@ -52,7 +52,7 @@ async function main() {
           truepillRxToken: 'truepillRxToken23234'
         }
       },
-      insurance: {
+      insurances: {
         create: {
           memberName: 'Alice Liddel',
           memberId: '122132342345GHGK',
@@ -63,7 +63,7 @@ async function main() {
           isMedicaid: false
         }
       },
-      consultation: {
+      consultations: {
         create: {
           abdominalOrPelvicSurgeries: null,
           alcoholUsage: 'NEVER',

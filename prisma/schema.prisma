@@ -48,8 +48,8 @@ model Patient {
   truepillPatientToken String?          @map("truepill_patient_token") @db.VarChar(50)
   stripeCustomerId     String?          @map("stripe_customer_id") @db.VarChar(50)
   prescriptions        Prescription[]
-  insurance            InsurancePolicy[]
-  consultation         Consultation[]
+  insurances           InsurancePolicy[]
+  consultations        Consultation[]
   createdAt            DateTime         @map("created_at") @default(now()) @ignore @db.Timestamptz(6)
   updatedAt            DateTime         @map("updated_at") @updatedAt @ignore @db.Timestamptz(6)
 
