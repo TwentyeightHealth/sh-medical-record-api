@@ -50,7 +50,7 @@ fetch('<base_url>/access-token', {
     "status": "error",
     "statusCode": 400,
     "error": "Bad Request",
-    "errors": [
+    "errorDetails": [
         {
             "key": "client_id",
             "message": "is missing"
@@ -285,7 +285,7 @@ fetch('<base_url>/medical-records', {
     "status": "error",
     "statusCode": 400,
     "error": "Bad Request",
-    "validation_errors": [
+    "errorDetails": [
         {
             "key": "email",
             "message": "is missing"
@@ -305,7 +305,7 @@ fetch('<base_url>/medical-records', {
     "status": "error",
     "statusCode": 400,
     "error": "Bad Request",
-    "validation_errors": [
+    "errorDetails": [
         {
             "key": "dob",
             "message": "Expected yyyy-mm-dd format, but got 1988/09/10"
@@ -322,7 +322,7 @@ fetch('<base_url>/medical-records', {
     "status": "error",
     "statusCode": 400,
     "error": "Bad Request",
-    "validation_errors": [
+    "errorDetails": [
         {
             "key": "email",
             "message": "Email is not in a valid format: alicecom"

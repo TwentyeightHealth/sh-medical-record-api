@@ -8,17 +8,17 @@ async function handleIncomingRequests(req: Request, res: Response) {
 
   // Check that the clientId and clientSecret were sent
   if (clientId === undefined || clientSecret === undefined) {
-    const errors = [];
+    const errorDetails = [];
 
     if (clientId === undefined) {
-      errors.push({
+      errorDetails.push({
         key: 'client_id',
         message: 'is missing'
       });
     }
 
     if (clientSecret === undefined) {
-      errors.push({
+      errorDetails.push({
         key: 'client_secret',
         message: 'is missing'
       });
@@ -28,7 +28,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
       status: 'error',
       statusCode: 400,
       error: 'Bad Request',
-      errors
+      errorDetails
     });
   }
 

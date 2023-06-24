@@ -75,7 +75,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
     return res.status(401).json({
       status: 'error',
       statusCode: 401,
-      error: 'Access Token is not valid, please generate a new one'
+      error: 'Access Token not found, please generate a new one'
     });
   }
 
@@ -92,7 +92,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
       status: 'error',
       statusCode: 400,
       error: 'Bad Request',
-      validation_errors: validationErrors
+      errorDetails: validationErrors
     });
   }
 
