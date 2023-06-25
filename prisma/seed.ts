@@ -13,7 +13,7 @@ async function main() {
       firstName: 'Alice',
       lastName: 'Liddell',
       sex: 'FEMALE',
-      dateOfBirth: new Date('1988-09-30'),
+      dateOfBirth: '1988-09-30',
       stateCode: 'CA',
       email: 'alice@gmail.com',
       phone: '(209) 777-4547',

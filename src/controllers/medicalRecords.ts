@@ -43,7 +43,7 @@ async function validateMedicalRecordInput({
     // Validate dob is YYYY-MM-DD
     validationErrors.push({
       key: 'dob',
-      message: `Expected yyyy-mm-dd format, but got ${dob.toString()}`
+      message: `Expected YYYY-MM-DD format, but got ${dob.toString()}`
     });
   }
 
@@ -103,7 +103,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
 async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: string; dob: string; res: Response }) {
   const patient = await patientCtrl.getByEmailAndDob({
     email,
-    dob: new Date(dob)
+    dob,
   });
 
   if (patient === null) {
