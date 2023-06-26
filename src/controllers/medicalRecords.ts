@@ -103,7 +103,7 @@ async function handleIncomingRequests(req: Request, res: Response) {
 async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: string; dob: string; res: Response }) {
   const patient = await patientCtrl.getByEmailAndDob({
     email,
-    dob,
+    dob
   });
 
   if (patient === null) {

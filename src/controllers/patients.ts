@@ -22,7 +22,7 @@ async function createPatient(payload: Prisma.PatientCreateInput): Promise<Patien
   return patient;
 }
 
-async function getByEmailAndDob({ email, dob }: { email: string; dob: string; }): Promise<Patient | null> {
+async function getByEmailAndDob({ email, dob }: { email: string; dob: string }): Promise<Patient | null> {
   return prisma.patient.findUnique({
     where: {
       email_dateOfBirth: {

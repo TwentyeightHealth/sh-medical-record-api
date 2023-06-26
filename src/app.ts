@@ -10,6 +10,7 @@ import type { NextFunction as Next, Request, Response } from 'express';
 // Import routes
 import accessTokenRouter from './routes/accessToken';
 import medicalRecordsRouter from './routes/medicalRecords';
+import usersRouter from './routes/users';
 
 // Set default port for express app
 const PORT = process.env.PORT || 7000;
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 // Implement routes
 app.use('/access-token', accessTokenRouter);
 app.use('/medical-records', medicalRecordsRouter);
+app.use('/get-user', usersRouter);
 
 // Implement 500 error route
 app.use(function (req: Request, res: Response, next: Next) {
