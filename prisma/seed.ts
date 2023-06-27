@@ -166,6 +166,7 @@ async function main() {
   });
 
   const { id, secret } = clientCtrl.generateClientIdAndSecret();
+  console.log('id', id, 'secret', secret);
   const hashedSecret = hashText(secret);
 
   const client = await prisma.client.create({

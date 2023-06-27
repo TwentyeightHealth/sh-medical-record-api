@@ -57,25 +57,7 @@ async function generateAccessToken(): Promise<{ accessToken: string; expiration:
   return { accessToken, expiration };
 }
 
-function getAccessTokenStatus(auth: string): string {
-  const accessToken = auth?.split(' ');
-  const tokenValue = accessToken?.length === 2 ? accessToken[1] : undefined;
-
-  if (tokenValue === undefined) {
-    return 'MISSING_FROM_AUTH';
-  }
-
-  const tokenExists = cache.get(tokenValue);
-
-  if (!tokenExists) {
-    return 'MISSING_FROM_CACHE';
-  }
-
-  return 'VERIFIED';
-}
-
 export default {
   generateAccessToken,
   handleIncomingRequests,
-  getAccessTokenStatus
 };

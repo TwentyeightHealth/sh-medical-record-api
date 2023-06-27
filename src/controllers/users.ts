@@ -4,29 +4,54 @@ import type { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
+interface VerificationResults {
+  statusCode?: number; 
+  error: string | null; 
+}
+
 /*
- * TODO: explain this function
+ * Verifies that the access token is in the stored cache 
  */
-async function handleIncomingRequests(req: Request, res: Response) {
+function verifyAccessToken(req: Request): VerificationResults {
   const auth = req.headers.authorization;
   const accessToken = auth?.split(' ');
   const tokenValue = accessToken?.length === 2 ? accessToken[1] : undefined;
 
   if (tokenValue === undefined) {
-    return res.status(401).json({
-      status: 'error',
+    return {
       statusCode: 401,
       error: 'Access Token required'
-    });
+    };
   }
 
   const tokenExists = cache.get(tokenValue);
 
   if (!tokenExists) {
-    return res.status(401).json({
-      status: 'error',
+    return {
       statusCode: 401,
       error: 'Access Token not found, please generate a new one'
+    };
+  }
+
+  // Access token is valid 
+  return {
+    error: null 
+  }; 
+}
+
+/*
+ * Handles incoming requests to the /get-user route 
+ */
+async function handleGetUserRequest(req: Request, res: Response) {
+  const verificationResults = verifyAccessToken(req);
+  
+  if (verificationResults.error) {
+    const statusCode = verificationResults.statusCode ?? 500; 
+
+    return res.status(statusCode).json({ 
+      status: 'error', 
+      statusCode, 
+      error: verificationResults.error, 
     });
   }
 
@@ -41,8 +66,6 @@ async function handleIncomingRequests(req: Request, res: Response) {
   }
 
   const user = await getUser(email);
-
-  console.log('user', user);
 
   if (user === null) {
     return res.status(404).json({
@@ -59,6 +82,35 @@ async function handleIncomingRequests(req: Request, res: Response) {
   });
 }
 
+/*
+ * Handles incoming requests to the /get-all route 
+ */
+async function handleGetAllUsersRequest(req: Request, res: Response) {
+  const verificationResults = verifyAccessToken(req);
+  
+  if (verificationResults.error) {
+    const statusCode = verificationResults.statusCode ?? 500; 
+
+    return res.status(statusCode).json({ 
+      status: 'error', 
+      statusCode, 
+      error: verificationResults.error, 
+    });
+  }
+
+  const users = await getAllUsers(); 
+
+  return res.status(200).json({
+    status: 'success',
+    statusCode: 200,
+    users
+  });
+}
+
+async function getAllUsers(): Promise<User[]> {
+  return prisma.user.findMany(); 
+}
+
 async function getUser(email: string): Promise<User | null> {
   const user = await prisma.user.findUnique({
     where: {
@@ -69,4 +121,4 @@ async function getUser(email: string): Promise<User | null> {
   return user;
 }
 
-export default { handleIncomingRequests };
+export default { handleGetUserRequest, handleGetAllUsersRequest };

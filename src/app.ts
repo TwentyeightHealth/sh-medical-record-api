@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 // Implement routes
 app.use('/access-token', accessTokenRouter);
 app.use('/medical-records', medicalRecordsRouter);
-app.use('/get-user', usersRouter);
+app.use('/users', usersRouter);
 
 // Implement 500 error route
 app.use(function (req: Request, res: Response, next: Next) {
