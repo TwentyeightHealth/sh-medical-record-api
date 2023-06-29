@@ -156,7 +156,7 @@ async function main() {
     }
   });
 
-  const bob = await prisma.user.upsert({
+  const megan = await prisma.user.upsert({
     where: { email: 'meg.eli.smi@gmail.com' },
     update: {},
     create: {
@@ -176,7 +176,7 @@ async function main() {
     }
   });
 
-  console.log({ alice, bob, client });
+  console.log({ alice, megan, client });
 }
 main()
   .then(async () => {

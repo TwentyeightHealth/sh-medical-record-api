@@ -56,6 +56,8 @@ async function handleGetUserRequest(req: Request, res: Response) {
     });
   }
 
+
+
   const email = req.body.email;
 
   if (!email) {
@@ -191,12 +193,14 @@ async function getAllUsers(): Promise<User[]> {
   return prisma.user.findMany();
 }
 
-async function getUser(email: string): Promise<void> {
-  await prisma.user.findUnique({
+async function getUser(email: string): Promise<User | null> {
+  const user = await prisma.user.findUnique({
     where: {
       email
     }
   });
+
+  return user; 
 }
 
 async function addUser({ email, role }: { email: string, role: string }): Promise<User | null> {
