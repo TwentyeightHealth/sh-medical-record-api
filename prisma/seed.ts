@@ -161,7 +161,7 @@ async function main() {
     update: {},
     create: {
       email: 'meg.eli.smi@gmail.com',
-      role: 'ADMIN',
+      role: 'ADMIN'
     }
   });
 

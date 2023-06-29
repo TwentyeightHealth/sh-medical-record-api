@@ -59,5 +59,5 @@ async function generateAccessToken(): Promise<{ accessToken: string; expiration:
 
 export default {
   generateAccessToken,
-  handleIncomingRequests,
+  handleIncomingRequests
 };
