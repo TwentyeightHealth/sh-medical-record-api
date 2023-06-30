@@ -7,7 +7,7 @@ import regex from '../lib/regex';
 import type { Request, Response } from 'express';
 
 /*
- * Check that email and dob are present, and confirm that their
+ * Check that email and dob are present and confirm that their
  * formats are valid
  */
 async function validateMedicalRecordInput({
@@ -110,7 +110,7 @@ async function getMedicalRecordsByEmailAndDob({ email, dob, res }: { email: stri
     return res.status(404).json({ status: 'error', statusCode: 404, error: 'Patient not found.' });
   }
 
-  // TODO: what types of things do we want to return? should we take out internal id?
+  // TODO: Should we take out internal id?
   const prescriptions = await prescriptionCtrl.getByPatientId(patient.id);
   const consultations = await consultationCtrl.getByPatientId(patient.id);
   const insurancePolicies = await insuranceCtrl.getByPatientId(patient.id);

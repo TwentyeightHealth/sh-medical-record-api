@@ -13,7 +13,7 @@ async function main() {
       firstName: 'Alice',
       lastName: 'Liddell',
       sex: 'FEMALE',
-      dateOfBirth: '1988-09-30',
+      dateOfBirth: '1992-01-12',
       stateCode: 'CA',
       email: 'alice@gmail.com',
       phone: '(209) 777-4547',
@@ -80,7 +80,7 @@ async function main() {
           consentToTelehealth: 'Agree',
           currentBirthControl: null,
           currentBirthControlNote: null,
-          currentColdSoresOutbreak: null,
+          currentColdSoresOutbreak: true,
           currentGenitalHerpesOutbreak: null,
           decreasedLibido: null,
           diabetes: false,
@@ -166,7 +166,8 @@ async function main() {
   });
 
   const { id, secret } = clientCtrl.generateClientIdAndSecret();
-  console.log('id', id, 'secret', secret);
+  // This is where you can log out the client id and secret in code
+
   const hashedSecret = hashText(secret);
 
   const client = await prisma.client.create({
