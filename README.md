@@ -1,12 +1,21 @@
 # SH Medical Records API
 
-An API that gives access to medical records that belong SimpleHealth patients. These medical records include consultation data, doctor and patient messages, prescriptions issued, and any insurance policies.
+An API that gives access to medical records that belong SimpleHealth patients. These medical records include consultation data, prescriptions issued, and any insurance policies.
+
+## Table of Contents
+1. [Usage](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#usage)
+2. [Setup](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#setup)
+3. [Prisma](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#prisma)
+3. [Technologies](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#technologies)
+4. [Credits](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#credits)
 
 ## Usage
 
 ### Client ids and client secrets
 
-In order to access medical records for a patient, you must have a client id and client secret. You can obtain a client id and client secret by [instructions here].
+In order to access medical records for a patient, you must have a client id and client secret. 
+
+#### Note: Currently the client id and secret must be logged out in the code.
 
 ### Access Tokens
 
@@ -93,7 +102,7 @@ fetch('<base_url>/medical-records', {
         "firstName": "Alice",
         "lastName": "Liddell",
         "sex": "FEMALE",
-        "dateOfBirth": "1988-09-30T00:00:00.000Z",
+        "dateOfBirth": "1988-09-30",
         "stateCode": "CA",
         "email": "alice@gmail.com",
         "phone": "(209) 777-4547",
@@ -331,13 +340,31 @@ fetch('<base_url>/medical-records', {
 }
 ```
 
-## Contributing
+## Set up
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+* Download or clone the repository
+* Run `yarn install`
+* Run `yarn start:dev` and server should be running on `localhost:7000`
 
-Please make sure to update tests as appropriate.
+## Prisma
 
-## License
+In development, the database is seeded with data from `primsa/seed.ts`. You can run the seed file with the command `npx prisma migrate reset`. Note that this will reset all the data in your database. 
 
-[MIT](https://choosealicense.com/licenses/mit/)
+The database schema file is in `prisma/schema.primsa`. If you make any changes to schema, you can run these new changes with `npx prisma migrate dev --name init`. 
+
+## Technologies
+
+* Node.js
+* Express
+* Postgres
+* Prisma
+* Docker 
+* Typescript
+* eslint
+
+## Credits 
+
+* [megelismi](https://github.com/megelismi)
+* [jamelclarke](https://github.com/jamel-clarke)
+
+
