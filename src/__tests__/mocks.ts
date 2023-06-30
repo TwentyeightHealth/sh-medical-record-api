@@ -4,7 +4,7 @@ export const createPatientPayload = {
   externalPatientId: 'sdf3434',
   firstName: 'Mock',
   lastName: 'Patient',
-  dateOfBirth: new Date('1997-08-12'),
+  dateOfBirth: '1997-08-12',
   stateCode: 'NY',
   email: 'mock_patient@gmail.com',
   phone: '(209) 332-4466',

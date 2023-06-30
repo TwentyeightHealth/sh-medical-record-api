@@ -9,7 +9,7 @@ enum SexType {
 }
 
 async function createPatient(payload: Prisma.PatientCreateInput): Promise<Patient> {
-  const existingPatient = await getByEmailAndDob({ email: payload.email, dob: new Date(payload.dateOfBirth) });
+  const existingPatient = await getByEmailAndDob({ email: payload.email, dob: payload.dateOfBirth });
 
   if (existingPatient) {
     return existingPatient;
