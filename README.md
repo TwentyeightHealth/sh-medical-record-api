@@ -4,8 +4,8 @@ An API that gives access to medical records that belong SimpleHealth patients. T
 
 ## Table of Contents
 1. [Usage](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#usage)
-2. [Technologies](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#technologies)
-3. [Setup](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#setup)
+2. [Setup](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#setup)
+3. [Technologies](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#technologies)
 4. [Credits](https://github.com/megelismi/sh-medical-record-api/blob/main/README.md#credits)
 
 ## Usage
