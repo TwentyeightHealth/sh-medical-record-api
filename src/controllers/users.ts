@@ -143,6 +143,16 @@ async function handleAddUserRequest(req: Request, res: Response) {
     });
   }
 
+  const user = await getUser(email); 
+
+  if (user) {
+    return res.status(422).json({
+      status: 'error',
+      statusCode: 422,
+      error: "Duplicate entry - user already exists",
+    });
+  }
+
   await addUser({ email, role });
 
   return res.status(200).json({
