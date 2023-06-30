@@ -16,7 +16,7 @@ import usersRouter from './routes/users';
 const PORT = process.env.PORT || 7000;
 
 // Create a server side cache
-// time to expire is infinity, and check period is 24 hours
+// time to expire is infinity
 export const cache = new NodeCache({ stdTTL: 0, checkperiod: 0 });
 
 // Create express app
