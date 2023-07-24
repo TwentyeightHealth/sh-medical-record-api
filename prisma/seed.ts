@@ -13,7 +13,7 @@ async function main() {
       firstName: 'Alice',
       lastName: 'Liddell',
       sex: 'FEMALE',
-      dateOfBirth: '1992-01-12',
+      dateOfBirth: new Date('1992-01-12'),
       stateCode: 'CA',
       email: 'alice@gmail.com',
       phone: '(209) 777-4547',
@@ -131,7 +131,7 @@ async function main() {
           questionsForDoctor: null,
           questionsForDoctorNote: null,
           recentVaricellaOrZosterVaccination: null,
-          regularMenstrualCycles: true,
+          regularMenstrualCycles: 'Yes',
           rheumatologicOrAutoimmuneDisorder: null,
           severeAcne: null,
           severeMenstrualCramping: null,
@@ -165,8 +165,30 @@ async function main() {
     }
   });
 
+  const jamel = await prisma.user.upsert({
+    where: { email: 'jclarke@simplehealth.com' },
+    update: {},
+    create: {
+      email: 'jclarke@simplehealth.com',
+      role: 'ADMIN'
+    }
+  });  
+
+  const eric = await prisma.user.upsert({
+    where: { email: 'eric@twentyeighthealth.com' },
+    update: {},
+    create: {
+      email: 'eric@twentyeighthealth.com',
+      role: 'ADMIN'
+    }
+  });
+
   const { id, secret } = clientCtrl.generateClientIdAndSecret();
   // This is where you can log out the client id and secret in code
+  const credential = {
+    clientId: id,
+    secret
+  }
 
   const hashedSecret = hashText(secret);
 
@@ -177,7 +199,7 @@ async function main() {
     }
   });
 
-  console.log({ alice, megan, client });
+  console.log({ alice, megan, jamel, eric, credential });
 }
 main()
   .then(async () => {

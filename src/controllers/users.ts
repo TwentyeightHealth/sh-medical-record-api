@@ -46,7 +46,7 @@ function verifyAccessToken(req: Request): VerificationResults {
 async function handleGetUserRequest(req: Request, res: Response) {
   const verificationResults = verifyAccessToken(req);
 
-  if (verificationResults.error) {
+  if (verificationResults.error) {    
     const statusCode = verificationResults.statusCode ?? 500;
 
     return res.status(statusCode).json({

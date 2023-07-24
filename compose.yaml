@@ -1,28 +1,5 @@
 version: '3.9'
 services:
-  index:
-    image: getmeili/meilisearch:v1.1
-    container_name: medical-record-index
-    environment:
-      - MEILISEARCH_MASTER_KEY=${MEILISEARCH_MASTER_KEY}
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
-    volumes:
-      - meilisearch_data:/meilisearch_data
-    ports:
-      - ${MEILISEARCH_PORT:-7700}:7700
-    restart: unless-stopped
-
-  cache:
-    image: redis:7.0.11-alpine
-    container_name: medical-record-cache
-    volumes:
-      - redis_data:/data
-    ports:
-      - ${REDIS_PORT:-6379}:6379
-    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASS}
-    restart: unless-stopped
-
   database:
     image: postgres:15.3-alpine
     container_name: medical-record-db
@@ -37,19 +14,35 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
-  dbadmin:
-    image: dpage/pgadmin4:7.1
-    container_name: medical-record-db-admin
-    depends_on:
-      - database
-    ports:
-      - ${PGADMIN_PORT:-5555}:80
+  api:
     environment:
-      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
-      - PGADMIN_DEFAULT_PASSWORD=admin
+      - NODE_ENV=development
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    container_name: medical-record-api
+    hostname: api
+    expose:
+      - "7000"
+    ports:
+      - "7000:7000"
     volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    restart: unless-stopped
+      - ./:usr/app
+    command: npm run start:dev
+    
+  # dbadmin:
+  #   image: dpage/pgadmin4:7.1
+  #   container_name: medical-record-db-admin
+  #   depends_on:
+  #     - database
+  #   ports:
+  #     - ${PGADMIN_PORT:-5555}:80
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+  #     - PGADMIN_DEFAULT_PASSWORD=admin
+  #   volumes:
+  #     - pgadmin_data:/var/lib/pgadmin
+  #   restart: unless-stopped
 
   # api:
   #   stdin_open: true
@@ -64,8 +57,8 @@ services:
   #   restart: always
 
 volumes:
-  meilisearch_data:
-  redis_data:
+  # meilisearch_data:
+  # redis_data:
   # mongodb_data:
   postgres_data:
-  pgadmin_data:
+  # pgadmin_data:
