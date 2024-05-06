@@ -344,7 +344,7 @@ fetch('<base_url>/medical-records', {
 
 * Download or clone the repository
 * Run `yarn install`
-* Run `yarn start:dev` and server should be running on `localhost:7000`
+* Run `yarn start:dev` and server should be running on `localhost:8000`
 
 ## Prisma
 

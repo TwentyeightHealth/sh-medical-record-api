@@ -23,9 +23,9 @@ services:
     container_name: medical-record-api
     hostname: api
     expose:
-      - "7000"
+      - "8000"
     ports:
-      - "7000:7000"
+      - "8000:8000"
     volumes:
       - ./:usr/app
     command: npm run start:dev

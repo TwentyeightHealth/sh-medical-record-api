@@ -10,7 +10,7 @@ push-image:
 
 # create container using the image created by dockerfile
 run-image:
-	docker run -p 7000:7000 jamelclarke/medical-record-api:${tag}
+	docker run -p 8000:8000 jamelclarke/medical-record-api:${tag}
 
 # wipe development containers and data clean
 wipe-dev:

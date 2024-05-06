@@ -1,5 +1,6 @@
 {
   "watch": ["src", ".env"],
+  "verbose": true,
   "ext": "ts,js,json",
   "ignore": ["node_modules", "dist", "coverage"],
   "exec": "ts-node-dev --respawn --clear --transpile-only src/app.ts",

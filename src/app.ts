@@ -13,7 +13,7 @@ import medicalRecordsRouter from './routes/medicalRecords';
 import usersRouter from './routes/users';
 
 // Set default port for express app
-const PORT = process.env.PORT || 7000;
+const PORT = process.env.PORT || 8000;
 
 // Create a server side cache
 // time to expire is infinity
